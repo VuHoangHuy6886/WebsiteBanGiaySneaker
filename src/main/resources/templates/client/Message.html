@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="client/element/Head :: head"></head>
+
+<body>
+<!-- box trang web  -->
+<!-- Header Trang Web Start  -->
+<nav th:replace="client/element/Header :: header"></nav>
+<!-- Header Trang Web End -->
+
+
+
+
+
+<!-- Content Start -->
+<div class="container mt-3 my-2" style=" min-height: calc(100vh - 100px);">
+    <div class="container mt-5">
+        <!-- header sản phẩm -->
+        <div class="row">
+            <div class="col-12">
+                <div th:if="${result} != null" class="d-flex justify-content-center">
+                    <h2 th:text="${result}" style="color: red;"></h2>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a th:href="@{/trang-chu}">
+                    <button class="btn bg-danger">Tiếp Tục Mua Sắm</button>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content End -->
+
+
+<!-- phần footer -->
+<div th:replace="client/element/Footer :: footer"></div>
+<!-- js  -->
+<div th:replace="client/element/JavaScrip :: javascrip"></div>
+</body>
+
+</html>

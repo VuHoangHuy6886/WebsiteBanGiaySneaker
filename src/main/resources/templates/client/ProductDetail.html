@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="client/element/Head :: head"></head>
+
+<body>
+<!-- box trang web  -->
+<!-- Header Trang Web Start  -->
+<nav th:replace="client/element/Header :: header"></nav>
+<!-- Header Trang Web End -->
+
+<!--content-->
+<div class="container mb-4">
+    <div class="row mt-3">
+        <div class="col-6" style="height: 400px;">
+            <img class="img-fluid" src="/assets/img/customer.jpg" alt="" style="height: 100%; width: 100%; object-fit: cover;">
+        </div>
+        <div class="col-6">
+            <div class="d-flex justify-content-center">
+                <h2>Thông Tin Sản Phẩm</h2>
+            </div>
+            <form method="post" th:action="@{/trang-chu/products/loc-bien-the}"
+                  th:object="${ChiTietResponse}">
+                <input type="hidden" th:field="*{sanPhamID.id}">
+                <div class="d-flex mt-3 fw-bold">
+                    <h4 type="text" th:text="${ChiTietResponse.ten}"></h4>
+                </div>
+                <div class="d-flex mt-3 ">
+                    <h4> Giá : </h4>
+                    <h4 class="ms-2" th:text="${#numbers.formatDecimal(ChiTietResponse.gia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></h4>
+                </div>
+                <div class="d-flex justify-content-start mt-3">
+                    <h4>Màu Sắc</h4>
+                </div>
+                <div class="d-flex ">
+                    <select th:field="*{mauSacID}" class="form-control">
+                        <option th:each="ms : ${listMauSac}" th:text="${ms.ten}" th:value="${ms.id}"></option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-start mt-3">
+                    <h4>Kich Thuoc</h4>
+                </div>
+                <div class="d-flex ">
+                    <div class="d-flex w-50 ">
+                        <select th:field="*{kichThuocID}" class="form-control">
+                            <option th:each="s : ${listKichThuoc}" th:text="${s.ten}" th:value="${s.id}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="d-flex w-50 bg-danger">
+                        <button class="btn bg-danger">Xem Biến Thể</button>
+                    </div>
+                </div>
+                <div th:if="${tb} != null">
+                    <span th:text="${tb}" style="color: red;"></span>
+                </div>
+            </form>
+            <div th:if="${BienThe}">
+                <form method="post" th:action="@{/trang-chu/products/them-vao-gio-hang}">
+                    <input type="hidden" name="id" th:field="${BienThe.id}">
+                    <div class="mt-3">
+                        <label>Số Lượng Trong Kho</label>
+                        <span th:text="${BienThe.soLuong}" style="color: red;"></span>
+                    </div>
+                    <div class="mt-3">
+                        <label>Số Lượng Muốn Mua</label>
+                        <input type="text" name="soLuong" style="color: red;"/><br>
+                        <span th:if="${error} != null" th:text="${error}" style="color: red;"></span>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-sm bg-success" type="submit">Add to Cart</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--end content-->
+
+<!-- phần footer -->
+<div th:replace="client/element/Footer :: footer"></div>
+<!-- js  -->
+<div th:replace="client/element/JavaScrip :: javascrip"></div>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layouts/head :: head">
+</head>
+<body>
+<header th:replace="admin/layouts/header :: header">
+</header>
+<div th:replace="admin/layouts/menu :: menu"></div>
+<div th:replace="admin/layouts/menu-icons :: menu-icons"></div>
+<!--phần content tự custom-->
+<div class="main-content" th:fragment="main-contents">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Quản Lý Hóa Đơn Chi Tiết</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Hóa Đơn</a></li>
+                                <li class="breadcrumb-item active">Hóa Đơn Chi Tiết</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <!-- đây là phần nội dung của trang web -->
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <h3>Quản Lý Hóa Đơn Chi Tiết</h3>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Ma</th>
+                        <th scope="col">So luong</th>
+                        <th scope="col">Don gia</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="a, stat : ${pages}">
+                        <td th:text="${stat.index + 1}">#</td>
+                        <td>Ma</td>
+                        <td th:text="${a.soLuong}"></td>
+                        <td th:text="${a.giaBan}"></td>
+
+
+                        <td>
+                            <!--                            <a th:href="@{/admin/Chi-Tiet-San-Pham/formUpdate(id=${a.id})}">-->
+                            <!--                                <button class="btn btn-warning">Update</button>-->
+                            <!--                            </a>-->
+
+                            <!--                                <a th:href="@{/admin/Kich-Thuoc/delete(id=${a.id})}">-->
+                            <!--                                    <button class="btn btn-danger">Xoa</button>-->
+                            <!--                                </a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+</div>
+<div th:replace="admin/layouts/scrip :: scrip">
+
+</div>
+</body>
+</html>

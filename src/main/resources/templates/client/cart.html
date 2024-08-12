@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="client/element/Head :: head"></head>
+
+<body>
+<!-- box trang web  -->
+<!-- Header Trang Web Start  -->
+<nav th:replace="client/element/Header :: header"></nav>
+<!-- Header Trang Web End -->
+
+
+
+<div class="container">
+    <!-- header sản phẩm -->
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-center">
+                <h3>Giỏ Hàng Của Bạn</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-end">
+                <a th:href="@{/trang-chu/cart/xoa-all}">
+                    <button class="btn btn-sm bg-danger">clear All</button>
+                </a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Ten</th>
+                    <th>Mau Sac</th>
+                    <th>Kich Thuoc</th>
+                    <th>Loai De</th>
+                    <th>Chat Lieu</th>
+                    <th>Don Gia</th>
+                    <th>So Luong</th>
+                    <th>Tao Tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cart, so: ${listCart}">
+                    <td th:text="${so.index +1}"></td>
+                    <td th:text="${cart.sanPham.ten}"></td>
+                    <td th:text="${cart.mauSac.ten}"></td>
+                    <td th:text="${cart.kichThuoc.ten}"></td>
+                    <td th:text="${cart.loaiDe.ten}"></td>
+                    <td th:text="${cart.chatLieu.ten}"></td>
+                    <td th:text="${#numbers.formatDecimal(cart.donGia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span>>
+
+                    </td>
+                    <td>
+                        <a th:href="@{/trang-chu/cart/tang(id=${cart.id})}">
+                            <button class="btn btn-sm bg-danger">+</button>
+                        </a>
+                        <span th:text="${cart.soLuong}"></span>
+                        <a th:href="@{/trang-chu/cart/giam(id=${cart.id})}">
+                            <button class="btn btn-sm bg-danger">-</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="@{/trang-chu/cart/Xoa(id=${cart.id})}">
+                            <button class="btn btn-sm bg-danger">Xóa</button>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:if="${error} != null">
+                <span th:text="${error}" style="color:  red;"></span>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="bg-secondary">
+                <div class="d-flex justify-content-center">
+                    <h3>Thông Tin Đơn Hàng</h3>
+                </div>
+                <h5 th:if="${QuantityProductInCart} != null" style="font-weight: bold">Lượng Sản Phẩm : <span
+                        th:text="${QuantityProductInCart}"></span></h5>
+                <h5 th:if="${totalMoney} != null" style="font-weight: bold">
+                    Tổng Số Tiền : <span
+                        th:text="${#numbers.formatDecimal(totalMoney, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form method="post" th:action="@{/trang-chu/cart/thanh-toan}" th:object="${KhachHang}">
+            <div class="col-12">
+                <h3>Thông tin Khách Hàng</h3>
+                <div class="mt-3">
+                    <label class="col-2">Họ Tên</label>
+                    <input class="col-6 " type="text" th:field="*{ten}" placeholder="Họ Tên của bạn">
+                    <span th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: red;"></span>
+                </div>
+                <div class="mt-3">
+                    <label class="col-2">Email</label>
+                    <input class="col-6 " type="text" th:field="*{email}" placeholder="email của bạn">
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
+                </div>
+                <div class="mt-3">
+                    <label class="col-2">Số Điện Thoại</label>
+                    <input class="col-6 " type="text" th:field="*{soDienThoai}" placeholder="Số Điện Thoại của bạn">
+                    <span th:if="${#fields.hasErrors('soDienThoai')}" th:errors="*{soDienThoai}"
+                          style="color: red;"></span>
+                </div>
+                <div class="mt-3">
+                    <label class="col-2 form-label">Địa Chỉ</label>
+                    <input class="col-6 " type="text" th:field="*{diaChi}" placeholder="Địa Chỉ"/>
+                    <span th:if="${#fields.hasErrors('diaChi')}" th:errors="*{diaChi}" style="color: red;"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="mt-2 d-flex flex-column justify-content-around">
+                        <div>
+                            <input type="checkbox"/> <label>Thanh toán Khi Nhận Hàng</label>
+                            <div th:if="${ketQuaThanhToan} != null">
+                                <h4 th:text="${ketQuaThanhToan}" style="color:  red;"></h4>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm bg-danger">Dặt Hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- phần footer -->
+<div th:replace="client/element/Footer :: footer"></div>
+<!-- js  -->
+<div th:replace="client/element/JavaScrip :: javascrip"></div>
+</body>
+
+</html>

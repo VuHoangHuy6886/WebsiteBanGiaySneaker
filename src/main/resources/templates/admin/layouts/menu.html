@@ -1,0 +1,105 @@
+<div class="vertical-menu" th:fragment="menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title" data-key="t-menu">Menu</li>
+                <li>
+                    <a th:href="@{/admin}" >
+                        <i data-feather="home"></i>
+                        <span data-key="t-dashboard">Thống Kê</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/Ban-Hang-Tai-Quay/index}" >
+                        <i data-feather="shopping-cart"></i>
+                        <span data-key="t-dashboard">Bán Hàng Tại Quầy</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/Don-Hang/all}" >
+                        <i data-feather="shopping-bag"></i>
+                        <span data-key="t-dashboard">Quản Lý Đơn Hàng</span>
+                    </a>
+                </li>
+<!--                <li>-->
+<!--                    <a href="javascript: void(0);" class="has-arrow">-->
+<!--                        <i data-feather="file-text"></i>-->
+<!--                        <span data-key="t-pages">Quản Lý Hóa Đơn</span>-->
+<!--                    </a>-->
+<!--                    <ul class="sub-menu" aria-expanded="false">-->
+<!--                        <li><a th:href="@{/admin/Hoa-Don/all}" data-key="t-starter-page">Hóa Đơn</a></li>-->
+<!--                        <li><a th:href="@{/admin/Hoa-Don-Chi-Tiet}" data-key="t-starter-page">Hóa Đơn Chi Tiết</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="list"></i>
+                        <span data-key="t-pages">Quản Lý Sản Phẩm</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a th:href="@{/admin/Hang/all}" data-key="t-starter-page">Hãng</a></li>
+                        <li><a th:href="@{/admin/San-Pham/all}" data-key="t-starter-page">Sản Phẩm</a></li>
+<!--                        <li><a th:href="@{/admin/Chi-Tiet-San-Pham/all}" data-key="t-starter-page">Sản Phẩm Chi Tiết</a>-->
+<!--                        </li>-->
+                        <li><a th:href="@{/admin/Mau-Sac/all}" data-key="t-starter-page">Màu Sắc</a></li>
+                        <li><a th:href="@{/admin/Kich-Thuoc/all}" data-key="t-starter-page">Kích Thước</a></li>
+                        <li><a th:href="@{/admin/Chat-Lieu/all}" data-key="t-starter-page">Chất Liệu</a></li>
+                        <li><a th:href="@{/admin/Loai-De/all}" data-key="t-starter-page">Loại Đế</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="user"></i>
+                        <span data-key="t-pages">Quản Lý Tài Khoản</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a th:href="@{/admin/Khach-Hang/all}" data-key="t-starter-page">Khách Hàng</a></li>
+                        <li><a th:href="@{/admin/Nhan-Vien/all}" data-key="t-starter-page">Nhân Viên</a></li>
+                    </ul>
+                </li>
+                <li style="margin-top: 330px;">
+                    <a th:href="@{/logout}" >
+                        <i data-feather="log-out"></i>
+                        <span data-key="t-dashboard" class="btn btn-sm bg-danger">Đăng Xuất</span>
+                    </a>
+                </li>
+
+<!--                <li>-->
+<!--                    <a href="javascript: void(0);" class="has-arrow">-->
+<!--                        <i data-feather="users"></i>-->
+<!--                        <span data-key="t-authentication">Authentications</span>-->
+<!--                    </a>-->
+<!--                    <ul class="sub-menu" aria-expanded="false">-->
+<!--                        <li><a href="auth-login.html" data-key="t-login">Đăng Ký</a></li>-->
+<!--                        <li><a href="auth-register.html" data-key="t-register">Đăng Nhập</a></li>-->
+
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="javascript: void(0);" class="has-arrow">-->
+<!--                        <i data-feather="share-2"></i>-->
+<!--                        <span data-key="t-multi-level">Multi Level</span>-->
+<!--                    </a>-->
+<!--                    <ul class="sub-menu" aria-expanded="true">-->
+<!--                        <li><a href="javascript: void(0);" data-key="t-level-1-1">Level 1.1</a></li>-->
+<!--                        <li>-->
+<!--                            <a href="javascript: void(0);" class="has-arrow" data-key="t-level-1-2">Level-->
+<!--                                1.2</a>-->
+<!--                            <ul class="sub-menu" aria-expanded="true">-->
+<!--                                <li><a href="javascript: void(0);" data-key="t-level-2-1">Level 2.1</a></li>-->
+<!--                                <li><a href="javascript: void(0);" data-key="t-level-2-2">Level 2.2</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>

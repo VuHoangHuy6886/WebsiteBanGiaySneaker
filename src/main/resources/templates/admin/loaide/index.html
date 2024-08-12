@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layouts/head :: head">
+</head>
+<body>
+<header th:replace="admin/layouts/header :: header">
+</header>
+<div th:replace="admin/layouts/menu :: menu"></div>
+<div th:replace="admin/layouts/menu-icons :: menu-icons"></div>
+<!--phần content tự custom-->
+<div class="main-content" th:fragment="main-contents">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Quản Lý Loại Đế</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Sản Phẩm</a></li>
+                                <li class="breadcrumb-item active">Loại Đế</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <!-- đây là phần nội dung của trang web -->
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <h3>Quản Lý Loại Đế</h3>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a th:href="@{/admin/Loai-De/formAdd}">
+                        <button class="btn btn-success">Thêm</button>
+                    </a>
+                </div>
+                <div class="mt-3 col-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Ten</th>
+                            <th scope="col">Trang Thai</th>
+                            <th scope="col">Thao Tac</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="a, stat : ${pages}">
+                            <td th:text="${stat.index + 1}">#</td>
+                            <td th:text="${a.ten}"></td>
+                            <td th:text="${a.trangThai}"></td>
+                            <td>
+                                <a th:href="@{/admin/Loai-De/formUpdate(id=${a.id})}">
+                                    <button class="btn btn-warning">Update</button>
+                                </a>
+                                <a th:href="@{/admin/Loai-De/delete(id=${a.id})}">
+                                    <button class="btn btn-danger">Xoa</button>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <!-- Previous page link -->
+                                <li class="page-item" th:classappend="${pages.hasPrevious()} ? '' : 'disabled'">
+                                    <a class="page-link" th:href="@{/admin/Loai-De/all(page=${pages.number - 1}, size=${pages.size})}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <!-- Page number links -->
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, pages.totalPages - 1)}"
+                                    th:classappend="${pages.number == i} ? 'active' : ''">
+                                    <a class="page-link" th:href="@{/admin/Loai-De/all(page=${i}, size=${pages.size})}"
+                                       th:text="${i + 1}">1</a>
+                                </li>
+                                <!-- Next page link -->
+                                <li class="page-item" th:classappend="${pages.hasNext()} ? '' : 'disabled'">
+                                    <a class="page-link" th:href="@{/admin/Loai-De/all(page=${pages.number + 1}, size=${pages.size})}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+</div>
+<div th:replace="admin/layouts/scrip :: scrip">
+</div>
+</body>
+</html>

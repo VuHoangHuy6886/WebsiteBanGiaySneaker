@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layouts/head :: head">
+</head>
+<body>
+<header th:replace="admin/layouts/header :: header">
+</header>
+<div th:replace="admin/layouts/menu :: menu"></div>
+<div th:replace="admin/layouts/menu-icons :: menu-icons"></div>
+<!--phần content tự custom-->
+<div class="main-content" th:fragment="main-contents">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Bán Hàng Tại Quầy</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Bán Hàng Tại Quầy</a></li>
+                                <li class="breadcrumb-item active">Thêm Sản Phẩm</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <!-- đây là phần nội dung của trang web -->
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <h3>Danh Sách Sản Phẩm</h3>
+                </div>
+                <hr>
+            </div>
+            <div class="col-12">
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Sản Phẩm</th>
+                        <th scope="col">Đơn Giá</th>
+                        <th scope="col">Số Lượng Trong Kho</th>
+                        <th scope="col">Số Lượng Muốn Thêm</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each=" ct ,start : ${ListProducts}">
+                        <td th:text="${start.index +1}"></td>
+                        <td>
+                            <span th:text="${ct.sanPham.ten}"></span> -
+                            <span th:text="${ct.mauSac.ten}"></span> -
+                            <span th:text="${ct.kichThuoc.ten}"></span> -
+                            <span th:text="${ct.loaiDe.ten}"></span> -
+                            <span th:text="${ct.chatLieu.ten}"></span>
+                        </td>
+                        <td th:text="${#numbers.formatDecimal(ct.donGia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                        <td th:text="${ct.soLuong}"></td>
+                        <td>
+                            <form method="post" th:action="@{/admin/Ban-Hang-Tai-Quay/Them-Vao-Gio-Hang}"
+                                  class="d-flex">
+                                <div>
+                                    <input type="hidden" name="idSP" th:value="${ct.id}">
+                                    <input type="number" name="soluong" style="width: 50px;">
+                                </div>
+                                <div class="ms-2">
+                                    <button class="btn btn-sm bg-success">Thêm</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:if="${errorMessage}">
+                    <span th:text="${errorMessage}" style="color: red;"></span>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Page-content -->
+</div>
+<div th:replace="admin/layouts/scrip :: scrip">
+</div>
+</body>
+</html>

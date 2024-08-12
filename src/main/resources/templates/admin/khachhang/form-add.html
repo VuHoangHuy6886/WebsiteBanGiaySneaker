@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layouts/head :: head"></head>
+<body>
+<header th:replace="admin/layouts/header :: header"></header>
+<div th:replace="admin/layouts/menu :: menu"></div>
+<div th:replace="admin/layouts/menu-icons :: menu-icons"></div>
+
+<!--phần content tự custom-->
+<div class="main-content" th:fragment="main-contents">
+    <div class="page-content">
+        <div class="container">
+            <!-- Start Page Title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Quản Lý Hãng</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Quản Lý Sản Phẩm</a></li>
+                                <li class="breadcrumb-item active">Hãng</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Page Title -->
+            <!-- Content Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">Form Save</h3>
+
+
+
+
+                            <form th:action="@{/admin/Khach-Hang/save}" method="post" th:object="${KhachHang}">
+                                <div class="mb-3">
+                                    <label for="ten" class="form-label">Mã</label>
+                                    <input type="text" id="ma" class="form-control" th:field="*{ma}">
+                                    <span th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}" style="color: red;"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ten" class="form-label">Tên</label>
+                                    <input type="text" id="ten" class="form-control" th:field="*{ten}">
+                                    <span th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ten" class="form-label">Sdt </label>
+                                    <input type="text" id="ten" class="form-control" th:field="*{sdt}">
+                                    <span th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ten" class="form-label">Địa chỉ</label>
+                                    <input type="text" id="ten" class="form-control" th:field="*{diaChi}">
+                                    <span th:if="${#fields.hasErrors('diaChi')}" th:errors="*{diaChi}" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ten" class="form-label">Email</label>
+                                    <input type="text" id="ten" class="form-control" th:field="*{email}">
+                                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ten" class="form-label">Mật khẩu</label>
+                                    <input type="text" id="ten" class="form-control" th:field="*{matKhau}">
+                                    <span th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}" style="color: red;"></span>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary ms-3">Save</button>
+                                </div>
+                            </form>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Content Section -->
+        </div> <!-- Container-fluid -->
+    </div>
+    <!-- End Page-content -->
+</div>
+
+<div th:replace="admin/layouts/scrip :: scrip"></div>
+</body>
+</html>

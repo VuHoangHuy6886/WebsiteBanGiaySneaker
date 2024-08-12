@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layouts/head :: head">
+</head>
+<body>
+<header th:replace="admin/layouts/header :: header">
+</header>
+<div th:replace="admin/layouts/menu :: menu"></div>
+<div th:replace="admin/layouts/menu-icons :: menu-icons"></div>
+<!--phần content tự custom-->
+<div class="main-content" th:fragment="main-contents">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Bán Hàng Tại Quầy</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Bán Hàng Tại Quầy</a></li>
+                                <li class="breadcrumb-item active">Bán Hàng</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <!-- đây là phần nội dung của trang web -->
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <h3>Bán Hàng Tại Quầy</h3>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-center">
+                            <div class="me-3" th:each="h : ${HoaDonNew}">
+                                <form method="post" th:action="@{/admin/Ban-Hang-Tai-Quay/Hien-Thi-Gio-Hang}">
+                                    <input type="hidden" name="idHD" th:value="${h.id}">
+                                    <button type="submit" class="btn " style="background-color: #0dcaf0;"
+                                            th:text="${h.ma}"></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <a th:href="@{/admin/Ban-Hang-Tai-Quay/Tao-Hoa-Don}">
+                                <button class="btn  bg-success ms-5">Tạo Hóa Đơn</button>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+            </div>
+            <div class="col-12">
+                <div th:if="${HoaDonClick} != null" class="d-flex justify-content-between">
+                    <a th:href="@{/admin/Ban-Hang-Tai-Quay/XoaAll}">
+                        <button class="btn  bg-danger">Clear All</button>
+                    </a>
+                    <a th:href="@{/admin/Ban-Hang-Tai-Quay/Them-San-Pham}">
+                        <button class="btn  bg-success">Thêm Sản Phẩm</button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Sản Phẩm</th>
+                        <th scope="col">Đơn Giá</th>
+                        <th scope="col">Số Lượng</th>
+                        <th scope="col">Thao Tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="h,start : ${GioHang}">
+                        <td th:text="${start.index +1}"></td>
+                        <td>
+                            <span th:text="${h.sanPham.ten}"></span> -
+                            <span th:text="${h.mauSac.ten}"></span> -
+                            <span th:text="${h.kichThuoc.ten}"></span> -
+                            <span th:text="${h.chatLieu.ten}"></span> -
+                            <span th:text="${h.loaiDe.ten}"></span>
+                        </td>
+                        <td th:text="${#numbers.formatDecimal(h.donGia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                        <td>
+                            <div class="d-flex">
+                                <a th:href="@{/admin/Ban-Hang-Tai-Quay/Tang(idSP=${h.id})}">
+                                    <button class="btn btn-sm bg-success">+</button>
+                                </a>
+                                <span class="me-2 ms-2" th:text="${h.soLuong}"></span>
+                                <a th:href="@{/admin/Ban-Hang-Tai-Quay/Giam(idSP=${h.id})}">
+                                    <button class="btn btn-sm bg-success">-</button>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/Ban-Hang-Tai-Quay/Xoa(id=${h.id})}">
+                                <button class="btn btn-sm bg-danger">Xóa</button>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:if="${errormesage} != null" class="d-flex justify-content-center">
+                    <span th:text="${errormesage}" style="color: red;"></span>
+                </div>
+            </div>
+            <div class="col-12" th:if="${totalQuantity} != null and ${totalMoney} != null">
+                <div class="d-flex justify-content-end">
+                    <div class="d-flex flex-column justify-content-around w-50"
+                         style="background-color: #0dcaf0; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); color: white;">
+                        <h5 style="margin-bottom: 15px;">Thông Tin Đơn Hàng</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5>Tổng Số Lượng Sản Phẩm:</h5>
+                            <h5 th:text="${totalQuantity}"></h5>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h5>Tổng Tiền: </h5>
+                            <input type="hidden" id="tt" th:value="${totalMoney}">
+                            <h5 style="font-weight: bold"
+                                th:text="${#numbers.formatDecimal(totalMoney, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></h5>
+                        </div>
+                        <!-- Khach hàng -->
+                        <div class="d-flex justify-content-between">
+                            <h5>Khách Hàng</h5>
+                            <div style="width: 200px;">
+                                <select id="idCustomerMethod" class="form-control">
+                                    <option value="KL">Khách Lẻ</option>
+                                    <option value="KH">Khách Hàng</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="CustomerDetail" style="display: none; margin-top: 20px;">
+                            <div class="d-flex justify-content-between">
+                                <h5>Lựa Chọn Khách Hàng</h5>
+                                <div style="width: 200px;">
+                                    <h6>Danh Sách</h6>
+                                    <select id="customerList" class="form-control">
+                                        <option th:each="h : ${listCustomer}" th:value="${h.id}"
+                                                th:text="${h.ten}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Select box for payment method -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <h5>Phương Thức Thanh Toán</h5>
+                            <div style="width: 200px;">
+                                <select id="paymentMethod" class="form-control">
+                                    <option value="CK">Chuyển Khoản</option>
+                                    <option value="TM">Tiền Mặt</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Div for calculating money -->
+                        <div id="paymentDetails" style="display: none; margin-top: 20px;">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6>Tiền Khách Đưa:</h6>
+                                    <input type="text" id="tienKhachDua" class="form-control">
+                                </div>
+                                <div>
+                                    <h6>Tiền Thừa:</h6>
+                                    <input type="text" id="tienThua" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${errorMessage} != null">
+                            <span th:text="${errorMessage}" style="color:  red;"></span>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button id="thanhToanButton" class="btn bg-danger">Thanh Toán</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page-content -->
+    <form id="thanhToanForm" method="post" action="/admin/Ban-Hang-Tai-Quay/Thanh-Toan" style="display: none;">
+        <input type="hidden" name="customerMethod" id="hiddenCustomerMethod">
+        <input type="hidden" name="paymentMethod" id="hiddenPaymentMethod">
+        <input type="hidden" name="selectedCustomer" id="hiddenSelectedCustomer">
+    </form>
+</div>
+<!-- JavaScript to handle the radio button click events -->
+<!-- JavaScript to handle the radio button and select box events -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the select box for payment method
+        var paymentSelect = document.getElementById('paymentMethod');
+        // Get the div for payment details
+        var paymentDetails = document.getElementById('paymentDetails');
+        // get customermethod
+        var customerSelect = document.getElementById("idCustomerMethod");
+        // get customer list
+        var customerList = document.getElementById("customerList");
+        // get customer detail form
+        var customerDetails = document.getElementById("CustomerDetail");
+        // get input elements for money
+        var tienKhachDuaInput = document.getElementById("tienKhachDua");
+        var tienThuaInput = document.getElementById("tienThua");
+        // Get the thanh toan button
+        var thanhToanButton = document.getElementById("thanhToanButton");
+        // Get the hidden form and inputs
+        var thanhToanForm = document.getElementById("thanhToanForm");
+        var hiddenCustomerMethod = document.getElementById("hiddenCustomerMethod");
+        var hiddenPaymentMethod = document.getElementById("hiddenPaymentMethod");
+        var hiddenSelectedCustomer = document.getElementById("hiddenSelectedCustomer");
+
+        // Số tiền tổng cần thanh toán
+        var totalMoney = document.getElementById("tt").value;
+
+        customerSelect.addEventListener('change', function () {
+            if (this.value === "KH") {
+                customerDetails.style.display = 'block';
+            } else {
+                customerDetails.style.display = 'none';
+            }
+        });
+
+        // Add event listener for the select box change
+        paymentSelect.addEventListener('change', function () {
+            if (this.value === "TM") {
+                paymentDetails.style.display = 'block'; // Show the div
+            } else {
+                paymentDetails.style.display = 'none'; // Hide the div
+            }
+        });
+
+        // Add event listener for input in 'tienKhachDua'
+        tienKhachDuaInput.addEventListener('input', function () {
+            var tienKhachDua = parseFloat(this.value) || 0; // Chuyển thành số, nếu không phải số thì là 0
+            var tienThua = tienKhachDua - totalMoney;
+
+            if (tienThua > 0) {
+                // Định dạng giá trị tiền thừa với dấu phân cách hàng nghìn
+                tienThuaInput.value = new Intl.NumberFormat('vi-VN').format(tienThua) + ' VNĐ';
+            } else {
+                tienThuaInput.value = 'Không đủ tiền';
+            }
+        });
+
+        // Add event listener for 'customerList' change
+        customerList.addEventListener('change', function () {
+            hiddenSelectedCustomer.value = customerList.value;
+        });
+
+        // Add event listener for 'thanhToanButton' click
+        thanhToanButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var confirmPayment = confirm("Bạn có chắc chắn muốn thanh toán không?");
+            if (confirmPayment) {
+                // Get selected values
+                hiddenCustomerMethod.value = customerSelect.value;
+                hiddenPaymentMethod.value = paymentSelect.value;
+
+                // Submit the form
+                thanhToanForm.submit();
+            } else {
+                // Do nothing if user cancels
+                return;
+            }
+        });
+    });
+</script>
+<div th:replace="admin/layouts/scrip :: scrip">
+</div>
+</body>
+</html>
