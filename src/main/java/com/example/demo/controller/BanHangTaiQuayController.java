@@ -266,6 +266,23 @@ public class BanHangTaiQuayController {
         System.out.println("kh : " + kh);
         System.out.println("ptt : " + pttt);
         System.out.println("idKH : " + idKHStr);
+        if(idKHStr.isEmpty()){
+            // gọi hoa don Maps
+            model.addAttribute("GioHang", banHangTaiQuayService.layListChiTietSanPhamByIdHoaDon(IdHoaDonClick));
+            model.addAttribute("HoaDonNew", banHangTaiQuayService.layHoaDonMoiTao());
+            model.addAttribute("HoaDonClick", IdHoaDonClick);
+
+            // phần hiển thị tổng số lượng sản phẩm and tổng tiền
+            model.addAttribute("totalMoney", banHangTaiQuayService.totalPrice(IdHoaDonClick));
+            model.addAttribute("totalQuantity", banHangTaiQuayService.totalQuantity(IdHoaDonClick));
+            // phần hiển thị tổng số lượng sản phẩm and tổng tiền
+            model.addAttribute("totalMoney", banHangTaiQuayService.totalPrice(IdHoaDonClick));
+            model.addAttribute("totalQuantity", banHangTaiQuayService.totalQuantity(IdHoaDonClick));
+            // add list khách hàng
+            model.addAttribute("listCustomer", khachHangService.findAll());
+            model.addAttribute("errorMessage", "Vui lòng Chọn Lại Khách Hàng");
+            return "admin/banhangtaiquay/index";
+        }
         String phuongThucThanhToan;
         if (pttt.equals("TM")) {
             phuongThucThanhToan = PhuongThucThanhToan.TIEN_MAT.value;

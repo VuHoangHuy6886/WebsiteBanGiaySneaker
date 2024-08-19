@@ -9,6 +9,7 @@ import com.example.demo.repository.HoaDonRepo;
 import com.example.demo.repository.KhacHangRepo;
 import com.example.demo.service.*;
 import com.example.demo.util.CauHinhNgay;
+import com.example.demo.util.NhanVienDangNhap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,13 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
     private LichSuTrangThaiHoaDonService lichSuTrangThaiHoaDonService;
     @Autowired
     private NhanVienService nhanVienService;
+    @Autowired
+    private NhanVienDangNhap nhanVienDangNhap;
+
+    public BanHangTaiQuayServiceImpl(NhanVienDangNhap nhanVienDangNhap) {
+        this.nhanVienDangNhap = nhanVienDangNhap;
+    }
+
     // 1.khởi tạo map lưu value hoa đơn
     private Map<Integer, List<ChiTietSanPham>> hoaDonMaps = new HashMap<>();
     // 6. lấy idHoaDon
@@ -192,7 +200,6 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
     @Override
     public Boolean thanhToan(String phuongThucThanhToan, KhachHang khachHang) {
         // 1. check lại sản phẩm trươc khi thanh toán
-        NhanVien nhanVien = nhanVienService.nhanVienDangNhap();
         boolean checkCartToBill = true;
         List<ChiTietSanPham> cart = hoaDonMaps.get(idHoaDon);
         for (int i = 0; i < cart.size(); i++) {
@@ -216,6 +223,7 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
             if (khachHang.getId() != null) {
                 // tao khach hang dung du lieu
                 KhachHang customer = new KhachHang();
+                customer.setId(khachHang.getId());
                 customer.setMa(khachHangService.genMaKH());
                 customer.setTen(khachHang.getTen());
                 customer.setEmail(khachHang.getEmail());
@@ -229,6 +237,7 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
                 hoaDon.setTrangThai(TrangThaiHoaDon.HOAN_THANH.getValue());
                 hoaDon.setTongTien(this.totalPrice(idHoaDon));
                 hoaDon.setKhachHang(customer);
+                hoaDon.setNhanViens(nhanVienService.nhanVienDangNhap());
                 hoaDon.setNgayTao(cauHinhNgay.layNgayGioHienTai());
                 hoaDonRepo.saveAndFlush(hoaDon);
 
@@ -236,7 +245,9 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
                 // udpate tao lich su trang thai hoa don
                 LichSuDonHang lichSuDonHang = new LichSuDonHang();
                 lichSuDonHang.setHoaDon(hoaDon);
+                lichSuDonHang.setNhanViens(nhanVienDangNhap.getNhanVien());
                 lichSuDonHang.setNgayTao(cauHinhNgay.layNgayGioHienTai());
+                lichSuDonHang.setNhanViens(nhanVienService.nhanVienDangNhap());
                 lichSuDonHang.setMoTa("Hoa Don Co Trang Thai Hoan Thanh !");
                 lichSuDonHang.setTrangThai(TrangThaiHoaDon.HOAN_THANH.getValue());
                 lichSuTrangThaiHoaDonService.save(lichSuDonHang);
@@ -275,7 +286,7 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
                     hoaDon.setTrangThai(TrangThaiHoaDon.HOAN_THANH.getValue());
                     hoaDon.setTongTien(this.totalPrice(idHoaDon));
                     hoaDon.setNgayTao(cauHinhNgay.layNgayGioHienTai());
-                    hoaDon.setNhanViens(nhanVien);
+                    hoaDon.setNhanViens(nhanVienService.nhanVienDangNhap());
                     hoaDonRepo.saveAndFlush(hoaDon);
                 } else {
                     // nếu khách lẻ không có thi tạo
@@ -292,7 +303,7 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
                     hoaDon.setTrangThai(TrangThaiHoaDon.HOAN_THANH.getValue());
                     hoaDon.setTongTien(this.totalPrice(idHoaDon));
                     hoaDon.setNgayTao(cauHinhNgay.layNgayGioHienTai());
-                    hoaDon.setNhanViens(nhanVien);
+                    hoaDon.setNhanViens(nhanVienDangNhap.getNhanVien());
                     hoaDonRepo.saveAndFlush(hoaDon);
                 }
 
@@ -303,7 +314,7 @@ public class BanHangTaiQuayServiceImpl implements BanHangTaiQuayService {
                 lichSuDonHang.setNgayTao(cauHinhNgay.layNgayGioHienTai());
                 lichSuDonHang.setMoTa("Hoa Don Co Trang Thai Hoan Thanh !");
                 lichSuDonHang.setTrangThai(TrangThaiHoaDon.HOAN_THANH.getValue());
-                lichSuDonHang.setNhanViens(nhanVien);
+                lichSuDonHang.setNhanViens(nhanVienService.nhanVienDangNhap());
                 lichSuTrangThaiHoaDonService.save(lichSuDonHang);
 
                 // update lai sản phẩm trong giỏ vao hoa don chi tiet
